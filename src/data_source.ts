@@ -26,16 +26,13 @@ export async function add_cave(ctx: Context, session: Session, config: Config, c
             session.userId
         )}，挣点再来吧！`;
     }
-
-    let message = content || '';
-
-    if (images.length > 0) {
-        for (let img of images) {
-            let url = img.attrs.src;
+    let message = '';
+    for (const elem of session.elements) {
+        if (elem.type === 'img') {
+            let url = elem.attrs.src;
             console.info('处理图片', url);
             try {
                 let base64Data: string;
-
                 if (url.startsWith('base64://')) {
                     console.info('处理 base64 图片', url);
                     base64Data = url.replace('base64://', '');
@@ -52,17 +49,20 @@ export async function add_cave(ctx: Context, session: Session, config: Config, c
                         throw new Error('图片获取失败');
                     }
                 }
-
                 if (!base64Data) {
                     throw new Error('无效的图片数据');
                 }
-
-                img = h.image('data:image/png;base64,' + base64Data);
+                message += h.image('data:image/png;base64,' + base64Data);
             } catch (e) {
                 console.error('处理图片失败', e);
                 return '图片处理失败，请确保图片格式正确。';
             }
+        } else if (elem.type === 'text') {
+            message += elem;
         }
+    }
+    if (!message) {
+        message = content || '';
     }
 
     const create_result = await ctx.database.create('cave', {
