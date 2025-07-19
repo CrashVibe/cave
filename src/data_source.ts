@@ -64,6 +64,7 @@ export async function add_cave(ctx: Context, session: Session, config: Config, c
     if (!message) {
         message = content || '';
     }
+    message = message.replace(/(?:add_cave|投稿|回声洞投稿)/g, '').trim();
 
     const create_result = await ctx.database.create('cave', {
         content: message,
