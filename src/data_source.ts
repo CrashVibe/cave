@@ -13,7 +13,7 @@ import { Config } from '.';
  */
 export async function add_cave(ctx: Context, session: Session, config: Config, content: string, anonymous: boolean) {
     const images = session.elements.filter((e) => e.type === 'img');
-
+    console.debug('回声洞投稿内容:', content);
     const result = check_save_content(content, images);
     if (result) {
         return result;
@@ -57,7 +57,7 @@ export async function add_cave(ctx: Context, session: Session, config: Config, c
                 console.error('处理图片失败', e);
                 return '图片处理失败，请确保图片格式正确。';
             }
-        } else if (elem.type === 'text') {
+        } else {
             message += elem;
         }
     }

@@ -16,7 +16,7 @@ export const Config: Schema<Config> = Schema.object({
 
 export async function apply(ctx: Context, config: Config) {
     applyModel(ctx);
-    ctx.command('add_cave <content>', '添加内容到回声洞')
+    ctx.command('add_cave <content:text>', '添加内容到回声洞')
         .alias('投稿')
         .alias('回声洞投稿')
         .action(async ({ session }, content) => {
