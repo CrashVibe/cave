@@ -30,15 +30,28 @@ export async function apply(ctx: Context, config: Config) {
             return await add_cave(ctx, session, config, content, true);
         });
 
-    ctx.command('cave', '随机查看一个洞穴秘密')
+    ctx.command('cave [id:number]', '随机查看一个洞穴秘密')
         .alias('回声洞')
-        .action(async () => {
+        .action(async ({ session }, id) => {
             const list = await ctx.database.get('cave', {});
             if (!list.length) {
                 return '洞穴里还没有秘密';
             }
-            const item = list[Math.floor(Math.random() * list.length)];
-            return item.content;
+            if (!id) {
+                id = Math.floor(Math.random() * list.length) + 1;
+            } else {
+                id = Number(id);
+            }
+            const item = list.find((i) => i.id === id);
+            if (!item) {
+                return '没有找到对应的洞穴秘密';
+            }
+            let message = `[回声洞 #${item.id}]\n${item.content}\n————————————\n`;
+            message += `投稿人：${item.user_id}\n`;
+            message += `时间：${new Date(item.createdAt).toLocaleString()}\n`;
+            message += '\n私聊机器人可以投稿：\n投稿 [内容] | 匿名投稿 [内容]';
+
+            return message;
         });
     ctx.command('remove_cave <id> [reason:text]', '删除指定的洞穴秘密')
         .alias('删除回声洞')
