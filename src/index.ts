@@ -20,6 +20,9 @@ export async function apply(ctx: Context, config: Config) {
         .alias('投稿')
         .alias('回声洞投稿')
         .action(async ({ session }, content) => {
+            if (!content || !session) {
+                return '你输入了什么？一个......空气？\n请在投稿内容前加上“投稿”或“匿名投稿”';
+            }
             return await add_cave(ctx, session, config, content, false);
         });
 
@@ -27,6 +30,9 @@ export async function apply(ctx: Context, config: Config) {
         .alias('匿名投稿')
         .alias('匿名回声洞投稿')
         .action(async ({ session }, content) => {
+            if (!content || !session) {
+                return '你输入了什么？一个......空气？\n请在投稿内容前加上“投稿”或“匿名投稿”';
+            }
             return await add_cave(ctx, session, config, content, true);
         });
 
@@ -57,6 +63,9 @@ export async function apply(ctx: Context, config: Config) {
         .alias('删除回声洞')
         .alias('删除')
         .action(async ({ session }, id, reason) => {
+            if (!session || !session.userId) {
+                throw new Error('会话信息缺失');
+            }
             const cave_query = await ctx.database.get('cave', id);
             if (!cave_query || cave_query.length === 0) {
                 return '没有找到对应的回声洞内容诶~';
@@ -81,6 +90,9 @@ export async function apply(ctx: Context, config: Config) {
     ctx.command('cave_history', '回声洞投稿历史')
         .alias('回声洞记录')
         .action(async ({ session }) => {
+            if (!session || !session.userId) {
+                throw new Error('会话信息缺失');
+            }
             const list = await ctx.database.get('cave', { user_id: session.userId });
             if (!list.length) {
                 return '你还没有投稿过回声洞哦~';
@@ -91,15 +103,15 @@ export async function apply(ctx: Context, config: Config) {
                 const nodeList = msgList.map((text) => ({
                     type: 'node',
                     data: {
-                        user_id: session.userId,
+                        user_id: session.userId ?? session.bot?.userId,
                         nickname: session.username || '你',
                         content: text
                     }
                 }));
-                if (session.onebot.group_id) {
+                if (session.onebot && session.onebot.group_id) {
                     await session.onebot.sendGroupForwardMsg(session.onebot.group_id, nodeList);
                     return;
-                } else {
+                } else if (session.onebot && session.onebot.user_id) {
                     await session.onebot.sendPrivateForwardMsg(session.onebot.user_id, nodeList);
                     return;
                 }

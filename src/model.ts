@@ -23,9 +23,9 @@ export function applyModel(ctx: Context) {
             content: { type: 'text' },
             createdAt: {
                 type: 'timestamp',
-                dump: (value: Date | number) => {
-                    if (typeof value === 'number') {
-                        return new Date(value);
+                dump: (value: Date | null) => {
+                    if (value === null) {
+                        return null;
                     }
                     return value;
                 },

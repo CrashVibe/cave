@@ -12,8 +12,13 @@ import { Config } from '.';
  * @returns
  */
 export async function add_cave(ctx: Context, session: Session, config: Config, content: string, anonymous: boolean) {
+    if (!content || !session.elements) {
+        return '你输入了什么？一个......空气？\n请在投稿内容前加上“投稿”或“匿名投稿”';
+    }
+    if (!session.userId) {
+        throw new Error('出现错误：会话中没有用户 ID');
+    }
     const images = session.elements.filter((e) => e.type === 'img');
-    console.debug('回声洞投稿内容:', content);
     const result = check_save_content(content, images);
     if (result) {
         return result;
