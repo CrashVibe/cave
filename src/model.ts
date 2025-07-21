@@ -1,6 +1,6 @@
-import { Context } from 'koishi';
+import { Context } from "koishi";
 
-declare module 'koishi' {
+declare module "koishi" {
     interface Tables {
         cave: CaveModel;
     }
@@ -16,16 +16,16 @@ export interface CaveModel {
 
 export function applyModel(ctx: Context) {
     ctx.model.extend(
-        'cave',
+        "cave",
         {
-            id: { type: 'unsigned' },
-            user_id: { type: 'string' },
-            content: { type: 'text' },
+            id: { type: "unsigned" },
+            user_id: { type: "string" },
+            content: { type: "text" },
             createdAt: {
-                type: 'timestamp',
+                type: "timestamp",
                 dump: (value: Date | null) => {
                     if (value === null) {
-                        return null;
+                        return new Date();
                     }
                     return value;
                 },
@@ -33,10 +33,10 @@ export function applyModel(ctx: Context) {
                     return new Date(value);
                 }
             },
-            anonymous: { type: 'boolean', initial: false }
+            anonymous: { type: "boolean", initial: false }
         },
         {
-            primary: 'id',
+            primary: "id",
             autoInc: true
         }
     );
