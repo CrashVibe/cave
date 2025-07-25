@@ -36,7 +36,7 @@ export async function apply(ctx: Context, config: Config) {
             return await add_cave(ctx, session, config, content, true);
         });
 
-    ctx.command("cave [id:number]", "随机查看一个洞穴秘密")
+    ctx.command("cave [id:number]", "随机查看一个回声洞秘密")
         .alias("回声洞")
         .action(async ({ session }, id) => {
             const list = await ctx.database.get("cave", {});
