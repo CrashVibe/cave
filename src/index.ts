@@ -99,7 +99,7 @@ export async function apply(ctx: Context, config: Config) {
             }
             list.sort((a, b) => b.id - a.id);
             const msgList = list.map((item) => `编号：${item.id}\n内容：\n————————————\n${item.content}`);
-            if (session.platform === "onebot") {
+            if (session.onebot) {
                 const nodeList = msgList.map((text) => ({
                     type: "node",
                     data: {
