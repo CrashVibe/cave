@@ -81,11 +81,11 @@ export async function apply(ctx: Context, config: Config) {
                 const deleteReason = reason || "管理员删除";
                 await session.bot.sendPrivateMessage(
                     cave.user_id,
-                    `你的回声洞投稿（编号 ${cave.id}）已被管理员删除。\n原因：${deleteReason}\n内容：\n————————————\n${cave.content}`
+                    `你的回声洞投稿（编号 ${cave.id}）已被管理员删除。\n原因：${deleteReason}\n内容：${cave.content}\n————————————\n`
                 );
-                return `[删除成功] 编号 ${cave.id} 的投稿已删除\n内容：\n————————————\n${cave.content}\n已通知作者。`;
+                return `[删除成功] 编号 ${cave.id} 的投稿已删除\n${cave.content}\n————————————\n已通知作者。`;
             }
-            return "[删除成功] 编号 " + cave.id + " 的投稿已删除\n内容：\n————————————\n" + cave.content;
+            return `[删除成功] 编号 ${cave.id} 的投稿已删除\n${cave.content}\n————————————\n`;
         });
     ctx.command("cave_history", "回声洞投稿历史")
         .alias("回声洞记录")
