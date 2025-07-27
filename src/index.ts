@@ -81,11 +81,11 @@ export async function apply(ctx: Context, config: Config) {
                 const deleteReason = reason || "管理员删除";
                 await session.bot.sendPrivateMessage(
                     cave.user_id,
-                    `你的回声洞投稿（编号 ${cave.id}）已被管理员删除。\n原因：${deleteReason}\n内容：${cave.content}\n————————————\n`
+                    `你的回声洞投稿（编号 ${cave.id}）已被管理员删除。\n内容：${cave.content}\n————————————\n原因：${deleteReason}`
                 );
                 return `[删除成功] 编号 ${cave.id} 的投稿已删除\n${cave.content}\n————————————\n已通知作者。`;
             }
-            return `[删除成功] 编号 ${cave.id} 的投稿已删除\n${cave.content}\n————————————\n`;
+            return `[删除成功] 编号 ${cave.id} 的投稿已删除\n${cave.content}\n————————————`;
         });
     ctx.command("cave_history", "回声洞投稿历史")
         .alias("回声洞记录")
@@ -98,7 +98,12 @@ export async function apply(ctx: Context, config: Config) {
                 return "你还没有投稿过回声洞哦~";
             }
             list.sort((a, b) => b.id - a.id);
-            const msgList = list.map((item) => `编号：${item.id}\n内容：\n————————————\n${item.content}`);
+            const msgList = list.map(
+                (item) =>
+                    `编号：${item.id}\n${item.content}\n————————————\n时间：${new Date(
+                        item.createdAt
+                    ).toLocaleString()}`
+            );
             if (session.onebot) {
                 const nodeList = msgList.map((text) => ({
                     type: "node",
