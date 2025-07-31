@@ -23,6 +23,9 @@ export async function apply(ctx: Context, config: Config) {
             if (!content || !session) {
                 return "你输入了什么？一个......空气？\n请在投稿内容前加上“投稿”或“匿名投稿”";
             }
+            if (session.guildId) {
+                return "还是请来私聊我投稿罢~";
+            }
             return await add_cave(ctx, session, config, content, false);
         });
 
@@ -32,6 +35,9 @@ export async function apply(ctx: Context, config: Config) {
         .action(async ({ session }, content) => {
             if (!content || !session) {
                 return "你输入了什么？一个......空气？\n请在投稿内容前加上“投稿”或“匿名投稿”";
+            }
+            if (session.guildId) {
+                return "还是请来私聊我投稿罢~";
             }
             return await add_cave(ctx, session, config, content, true);
         });
