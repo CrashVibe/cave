@@ -116,7 +116,10 @@ export async function apply(ctx: Context, config: Config) {
                     data: {
                         user_id: session.userId ?? session.bot?.userId,
                         nickname: session.username || "你",
-                        content: text
+                        content: text.replace(
+                            /<img\s+src="data:image\/[^;]+;base64,([^"]+)"\s*\/?>/g,
+                            (_match, base64) => `[CQ:image,file=base64://${base64}]`
+                        )
                     }
                 }));
                 if (session.onebot && session.onebot.group_id) {
