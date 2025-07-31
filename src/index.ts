@@ -106,7 +106,7 @@ export async function apply(ctx: Context, config: Config) {
             list.sort((a, b) => b.id - a.id);
             const msgList = list.map(
                 (item) =>
-                    `编号：${item.id}\n${item.content}\n————————————\n时间：${new Date(
+                    `[编号 #${item.id}]\n${item.content}\n————————————\n时间：${new Date(
                         item.createdAt
                     ).toLocaleString()}`
             );
