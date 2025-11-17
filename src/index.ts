@@ -59,7 +59,7 @@ export async function apply(ctx: Context, config: Config) {
                 return "没有找到对应的洞穴秘密";
             }
             let message = `[回声洞 #${item.id}]\n${item.content}\n————————————\n`;
-            message += `投稿人：${item.user_id}\n`;
+            message += item.anonymous ? "投稿人：不愿透露姓名的TA\n" : `投稿人：${item.user_id}\n`;
             message += `时间：${new Date(item.createdAt).toLocaleString()}\n`;
             message += "\n私聊机器人可以投稿：\n投稿 [内容] | 匿名投稿 [内容]";
 
