@@ -1,8 +1,9 @@
-import { Context, Schema } from "koishi";
-import { applyModel } from "./model";
+import {} from "@koishijs/plugin-adapter-onebot";
+import {} from "@koishijs/plugin-adapter-qq";
 import {} from "@u1bot/koishi-plugin-coin/src";
+import { Context, Schema } from "koishi";
 import { add_cave } from "./data_source";
-import {} from "koishi-plugin-adapter-onebot";
+import { applyModel } from "./model";
 export const name = "cave";
 
 export const inject = ["database", "coin"];
@@ -23,6 +24,9 @@ export async function apply(ctx: Context, config: Config) {
             if (!content || !session) {
                 return "你输入了什么？一个......空气？\n请在投稿内容前加上“投稿”或“匿名投稿”";
             }
+            if (session.qq) {
+                return "此功能暂不支持该平台";
+            }
             if (session.guildId) {
                 return "还是请来私聊我投稿罢~";
             }
@@ -35,6 +39,9 @@ export async function apply(ctx: Context, config: Config) {
         .action(async ({ session }, content) => {
             if (!content || !session) {
                 return "你输入了什么？一个......空气？\n请在投稿内容前加上“投稿”或“匿名投稿”";
+            }
+            if (session.qq) {
+                return "此功能暂不支持该平台";
             }
             if (session.guildId) {
                 return "还是请来私聊我投稿罢~";
@@ -72,6 +79,9 @@ export async function apply(ctx: Context, config: Config) {
             if (!session || !session.userId) {
                 throw new Error("会话信息缺失");
             }
+            if (session.qq) {
+                return "此功能暂不支持该平台";
+            }
             const cave_query = await ctx.database.get("cave", id);
             if (!cave_query || cave_query.length === 0) {
                 return "没有找到对应的回声洞内容诶~";
@@ -98,6 +108,9 @@ export async function apply(ctx: Context, config: Config) {
         .action(async ({ session }) => {
             if (!session || !session.userId) {
                 throw new Error("会话信息缺失");
+            }
+            if (session.qq) {
+                return "此功能暂不支持该平台";
             }
             const list = await ctx.database.get("cave", { user_id: session.userId });
             if (!list.length) {
