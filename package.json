@@ -26,8 +26,8 @@
     "moment-timezone": "^0.6.0"
   },
   "devDependencies": {
+    "@koishijs/plugin-adapter-qq": "^4.10.1",
     "@u1bot/koishi-plugin-coin": "workspace:^",
-    "@koishijs/plugin-adapter-onebot": "^6.0.2",
-    "@koishijs/plugin-adapter-qq": "^4.10.1"
+    "koishi-plugin-adapter-onebot": "6.8.0"
   }
 }

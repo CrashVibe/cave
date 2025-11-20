@@ -1,4 +1,4 @@
-import {} from "@koishijs/plugin-adapter-onebot";
+import {} from "koishi-plugin-adapter-onebot";
 import {} from "@koishijs/plugin-adapter-qq";
 import {} from "@u1bot/koishi-plugin-coin/src";
 import { Context, Schema } from "koishi";
