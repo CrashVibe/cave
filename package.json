@@ -28,6 +28,6 @@
   "devDependencies": {
     "@koishijs/plugin-adapter-qq": "^4.10.1",
     "@u1bot/koishi-plugin-coin": "workspace:^",
-    "koishi-plugin-adapter-onebot": "6.8.0"
+    "koishi-plugin-adapter-onebot": "^6.8.0"
   }
 }
