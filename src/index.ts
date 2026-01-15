@@ -52,17 +52,20 @@ export async function apply(ctx: Context, config: Config) {
     ctx.command("cave [id:number]", "随机查看一个回声洞秘密")
         .alias("回声洞")
         .action(async ({ session }, id) => {
-            const list = await ctx.database.get("cave", {});
-            if (!list.length) {
+            const idList = await ctx.database.get("cave", {}, ["id"]);
+            if (!idList.length) {
                 return "洞穴里还没有秘密";
             }
-            let item: CaveModel | undefined;
+            let targetId: number;
             if (!id) {
-                item = Random.pick(list);
+                targetId = Random.pick(idList).id;
             } else {
-                id = Number(id);
-                item = list.find((i) => i.id === id);
+                targetId = Number(id);
+                if (!idList.some((i) => i.id === targetId)) {
+                    return "没有找到对应的洞穴秘密";
+                }
             }
+            const item = (await ctx.database.get("cave", { id: targetId }))[0];
             if (!item) {
                 return "没有找到对应的洞穴秘密";
             }
