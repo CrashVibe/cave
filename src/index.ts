@@ -1,9 +1,9 @@
 import {} from "koishi-plugin-adapter-onebot";
 import {} from "@koishijs/plugin-adapter-qq";
 import {} from "@u1bot/koishi-plugin-coin/src";
-import { Context, Schema } from "koishi";
+import { Context, Random, randomId, Schema } from "koishi";
 import { add_cave } from "./data_source";
-import { applyModel } from "./model";
+import { applyModel, CaveModel } from "./model";
 export const name = "cave";
 
 export const inject = ["database", "coin"];
@@ -56,12 +56,13 @@ export async function apply(ctx: Context, config: Config) {
             if (!list.length) {
                 return "洞穴里还没有秘密";
             }
+            let item: CaveModel | undefined;
             if (!id) {
-                id = Math.floor(Math.random() * list.length) + 1;
+                item = Random.pick(list);
             } else {
                 id = Number(id);
+                item = list.find((i) => i.id === id);
             }
-            const item = list.find((i) => i.id === id);
             if (!item) {
                 return "没有找到对应的洞穴秘密";
             }
