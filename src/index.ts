@@ -2,7 +2,7 @@ import {} from "koishi-plugin-adapter-onebot";
 import {} from "@koishijs/plugin-adapter-qq";
 import {} from "@u1bot/koishi-plugin-coin/src";
 import { Context, Random, randomId, Schema } from "koishi";
-import { add_cave } from "./data_source";
+import { add_cave } from "./service";
 import { applyModel, CaveModel } from "./model";
 export const name = "cave";
 
